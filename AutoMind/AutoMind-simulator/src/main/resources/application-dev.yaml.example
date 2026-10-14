@@ -1,0 +1,14 @@
+hm:
+  db:
+    host: 127.0.0.1:3306
+    pw: your_mysql_password
+aliyun:
+  oss:
+    en: https://oss-cn-beijing.aliyuncs.com
+    bu: your_bucket_name
+    re: cn-beijing
+  openai:
+    api-key: your_dashscope_api_key
+my:
+  db:
+    host: 127.0.0.1

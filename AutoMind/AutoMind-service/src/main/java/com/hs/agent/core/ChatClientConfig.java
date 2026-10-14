@@ -1,0 +1,18 @@
+package com.hs.agent.core;
+
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@EnableConfigurationProperties(AgentProperties.class)
+public class ChatClientConfig {
+
+    @Bean
+    public ChatClient.Builder chatClientBuilder(ChatModel chatModel) {
+        return ChatClient.builder(chatModel)
+                .defaultSystem("You are AutoMind agent runtime. Return strict JSON only.");
+    }
+}

@@ -1,0 +1,25 @@
+:root {
+  --am-bg: #f5f7fb;
+  --am-panel: #ffffff;
+  --am-border: #d9e1ec;
+  --am-text: #1f2937;
+  --am-muted: #6b7280;
+  --am-primary: #2563eb;
+  --am-success: #0f9f6e;
+  --am-warning: #d97706;
+  --am-danger: #dc2626;
+  --am-sidebar: #14213d;
+  --am-sidebar-active: #243b73;
+}
+
+.status-up {
+  color: var(--am-success);
+}
+
+.status-warning {
+  color: var(--am-warning);
+}
+
+.status-danger {
+  color: var(--am-danger);
+}

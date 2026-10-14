@@ -1,0 +1,23 @@
+# Build target
+target/
+bin/
+*.class
+*.jar
+*.war
+
+# IDE
+*.iml
+.idea/
+.vscode/
+
+# Logs
+logs/
+*.log
+
+# Sensitive config
+application-dev.yaml
+
+# AI tools & cache
+.claude/
+.codex/
+__pycache__/

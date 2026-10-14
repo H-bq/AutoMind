@@ -1,0 +1,76 @@
+# ==========================================
+# AutoMind Root GitIgnore
+# ==========================================
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE & Editor files
+.idea/
+**/.idea/
+.vscode/*
+!AutoMind-Vue/.vscode/extensions.json
+**/.vscode/
+*.iml
+*.iws
+*.ipr
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Java build outputs & packages (CRITICAL: prevents uploading large compiled jars)
+target/
+**/target/
+bin/
+**/bin/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+
+# Frontend dependencies & build outputs
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+dist-ssr/
+*.local
+
+# Runtime logs
+logs/
+**/logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+vite-dev.err.log
+vite-dev.log
+
+# Sensitive configuration files (prevent secret leaks)
+**/application-dev.yaml
+.env.local
+.env.*.local
+
+# Python artifacts
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# AI Assistant temporary / local directories
+.claude/
+**/.claude/
+.codex/
+**/.codex/

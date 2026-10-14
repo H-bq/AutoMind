@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "vision": {
+      "command": "C:\\Users\\Lenovo\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+      "args": ["-m", "vision_mcp"],
+      "env": {
+        "VISION_MCP_PROVIDER_TYPE": "ollama",
+        "VISION_MCP_PROVIDER_BASE_URL": "http://localhost:11434",
+        "VISION_MCP_PROVIDER_API_KEY": "",
+        "VISION_MCP_PROVIDER_MODEL": "qwen2.5vl:7b",
+        "VISION_MCP_PROVIDER_MAX_TOKENS": "3000"
+      }
+    }
+  }
+}

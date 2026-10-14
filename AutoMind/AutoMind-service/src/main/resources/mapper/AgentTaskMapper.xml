@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hs.mapper.AgentTaskMapper">
+
+    <select id="selectIntentTaskGroupPage" resultType="com.hs.domain.vo.AgentTaskGroupVO">
+        SELECT
+            ir.id AS intentId,
+            ir.tenant_id AS tenantId,
+            p.position AS position,
+            ir.input_text AS inputText,
+            ir.create_time AS createTime
+        FROM intent_request ir
+        INNER JOIN agent_task at ON at.intent_id = ir.id
+        LEFT JOIN person p ON p.user_id = ir.user_id AND p.tenant_id = ir.tenant_id
+        <where>
+            <if test="!adminTenant">
+                ir.tenant_id = #{tenantId}
+            </if>
+            <if test="query.pevState != null and query.pevState != ''">
+                AND at.pev_state = #{query.pevState}
+            </if>
+            <if test="query.agentRole != null and query.agentRole != ''">
+                AND at.agent_role = #{query.agentRole}
+            </if>
+            <if test="query.startTime != null">
+                AND ir.create_time &gt;= #{query.startTime}
+            </if>
+            <if test="query.endTime != null">
+                AND ir.create_time &lt;= #{query.endTime}
+            </if>
+        </where>
+        GROUP BY ir.id, ir.tenant_id, p.position, ir.input_text, ir.create_time
+        ORDER BY ir.create_time DESC
+    </select>
+</mapper>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hs.mapper.ApprovalRecordMapper">
+    <select id="selectDetail" resultType="com.hs.domain.vo.ApprovalDetailVO">
+        SELECT
+            ar.tenant_id AS tenantId,
+            p.position AS position,
+            ir.input_text AS inputText,
+            ir.parsed_intent AS parsedIntentJson,
+            ir.priority AS priority,
+            ar.status AS status,
+            ar.approval_type AS approvalType,
+            ar.risk_level AS riskLevel,
+            ar.ai_recommendation AS aiRecommendation,
+            ar.submitted_payload AS submittedPayload,
+            ar.modified_payload AS modifiedPayload,
+            ar.decision_reason AS decisionReason,
+            ar.submitted_at AS submittedAt,
+            ar.decided_at AS decidedAt
+        FROM approval_record ar
+        LEFT JOIN intent_request ir ON ir.id = ar.intent_id
+        LEFT JOIN person p ON p.user_id = ir.user_id AND p.tenant_id = ir.tenant_id
+        WHERE ar.id = #{id}
+        <if test="!adminTenant">
+            AND ar.tenant_id = #{tenantId}
+        </if>
+        LIMIT 1
+    </select>
+
+    <select id="selectMyProgressPage" resultType="com.hs.domain.vo.MyApprovalProgressVO">
+        SELECT
+            ar.id AS approvalId,
+            ir.id AS intentId,
+            ir.tenant_id AS tenantId,
+            ir.user_id AS userId,
+            ir.input_text AS inputText,
+            ir.priority AS priority,
+            ir.status AS intentStatus,
+            ir.trace_id AS traceId,
+            ir.create_time AS intentSubmittedAt,
+            ar.approval_type AS approvalType,
+            ar.risk_level AS riskLevel,
+            ar.status AS approvalStatus,
+            ar.decision_reason AS decisionReason,
+            ar.submitted_at AS approvalSubmittedAt,
+            ar.decided_at AS decidedAt,
+            ar.expire_at AS expireAt
+        FROM intent_request ir
+        LEFT JOIN approval_record ar ON ar.id = (
+            SELECT latest_ar.id
+            FROM approval_record latest_ar
+            WHERE latest_ar.intent_id = ir.id
+            ORDER BY latest_ar.submitted_at DESC, latest_ar.id DESC
+            LIMIT 1
+        )
+        <where>
+            ir.tenant_id = #{tenantId}
+            AND ir.user_id = #{userId}
+            <if test="query.status != null and query.status != ''">
+                AND ar.status = #{query.status}
+            </if>
+            <if test="query.approvalType != null and query.approvalType != ''">
+                AND ar.approval_type = #{query.approvalType}
+            </if>
+            <if test="query.riskLevel != null and query.riskLevel != ''">
+                AND ar.risk_level = #{query.riskLevel}
+            </if>
+            <if test="query.traceId != null and query.traceId != ''">
+                AND ir.trace_id = #{query.traceId}
+            </if>
+            <if test="query.startTime != null">
+                AND ir.create_time &gt;= #{query.startTime}
+            </if>
+            <if test="query.endTime != null">
+                AND ir.create_time &lt;= #{query.endTime}
+            </if>
+        </where>
+        ORDER BY ir.create_time DESC
+    </select>
+</mapper>
